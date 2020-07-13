@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <USER ID="1" ROLE_ID="1" LOGIN="Anonymous99" PASSWORD="qwerty"
+          EMAIL="anon1999@gmail.com" FIRST_NAME="John" LAST_NAME="Doe"
+          BIRTHDAY="1999-4-15"/>
+    <USER ID="2" ROLE_ID="2" LOGIN="AgentSmith" PASSWORD="1001010101"
+          EMAIL="matrix@gmail.com" FIRST_NAME="Agent" LAST_NAME="Smith"
+          BIRTHDAY="2000-7-20"/>
+
+    <USER ID="3" ROLE_ID="2" LOGIN="Agent007" PASSWORD="fortune"
+          EMAIL="profagent@gmail.com" FIRST_NAME="James" LAST_NAME="Bond"
+          BIRTHDAY="1990-2-3"/>
+    <USER ID="4" ROLE_ID="1" LOGIN="bGatezzz" PASSWORD="softmicro"
+          EMAIL="BillGates@gmail.com" FIRST_NAME="Bill" LAST_NAME="Gates"
+          BIRTHDAY="1974-5-1"/>
+    <USER ID="5" ROLE_ID="1" LOGIN="noobMaster69" PASSWORD="qwerty"
+          EMAIL="noobmaster69@gmail.com" FIRST_NAME="Noob" LAST_NAME="Master"
+          BIRTHDAY="1999-12-16"/>
+
+
+    <ROLE ID="1" NAME="admin"/>
+    <ROLE ID="2" NAME="user"/>
+</dataset>
