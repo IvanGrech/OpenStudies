@@ -82,10 +82,10 @@ public class UserRestWebService {
 
         String clientIP = request.getRemoteAddr();
 
-        boolean isValidCaptcha = captchaService.isValid(form.getCaptcha(),clientIP);
+        boolean isValidCaptcha = captchaService.isValid(form.getCaptcha(), clientIP);
 
         Map errors = new HashMap();
-        if(!isValidCaptcha){
+        if (!isValidCaptcha) {
             errors.put("captcha", "not valid captcha");
             errors.put("captcha was", form.getCaptcha());
         }
@@ -157,7 +157,6 @@ public class UserRestWebService {
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
-
 
 
     @POST
