@@ -25,9 +25,6 @@ public class User {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Role role;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "COURSE")
-    private List<Course> courses;
-
     @Column(name = "LOGIN")
     private String login;
 
@@ -142,7 +139,6 @@ public class User {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
-
 
     @Override
     public String toString() {

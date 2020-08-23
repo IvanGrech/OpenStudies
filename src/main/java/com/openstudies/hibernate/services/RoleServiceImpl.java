@@ -1,6 +1,6 @@
 package com.openstudies.hibernate.services;
 
-import com.openstudies.hibernate.HibernateRoleDao;
+import com.openstudies.hibernate.dao.HibernateRoleDao;
 import com.openstudies.model.entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

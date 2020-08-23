@@ -1,4 +1,4 @@
-package com.openstudies.hibernate;
+package com.openstudies.hibernate.dao;
 
 import com.openstudies.model.entities.User;
 import org.hibernate.Query;
@@ -15,14 +15,6 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public void create(User user) {
@@ -55,7 +47,7 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
         }
         Query query = sessionFactory.getCurrentSession().createQuery("from USER WHERE LOGIN = :lg");
         query.setParameter("lg", login);
-       User foundUser=(User) query.list().iterator().next();
+        User foundUser = (User) query.list().iterator().next();
         return foundUser;
     }
 
@@ -90,6 +82,14 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
         Query query = sessionFactory.getCurrentSession().createQuery("DELETE FROM USER WHERE ID = :i");
         query.setParameter("i", id);
         query.executeUpdate();
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
 }

@@ -13,8 +13,11 @@ import java.util.List;
 public class CompletedTask {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "TASK_ID")
     private Task task;
 
     @ManyToOne
@@ -28,7 +31,7 @@ public class CompletedTask {
     @Column(name = "COMPLETED")
     private boolean completed;
 
-    @OneToMany(mappedBy = "COMMENT")
+    @OneToMany()
     private List<Comment> comments;
 
     @Column(name = "FILE_LOCATIONS")

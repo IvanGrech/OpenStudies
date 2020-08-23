@@ -1,12 +1,13 @@
 package com.openstudies.model.entities.courses;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.openstudies.model.entities.User;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name = "COURSE")
 @Table(name = "COURSE")
 public class Course {
 
@@ -19,10 +20,12 @@ public class Course {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
+    @JsonIgnore
     private User owner;
 
     @Column
-    @OneToMany(mappedBy = "COURSE")
+    @OneToMany()
+    @JsonIgnore
     private List<Task> tasks;
 
     @Column(name = "DESCRIPTION")

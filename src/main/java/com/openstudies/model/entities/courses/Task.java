@@ -20,7 +20,7 @@ public class Task {
     @Column(name = "FILE_LOCATIONS")
     private String filesLocations;
 
-    @OneToMany(mappedBy = "TASK", fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<CompletedTask> completedTask;
 
     public Long getId() {
