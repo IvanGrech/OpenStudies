@@ -7,6 +7,7 @@ import java.util.List;
 public interface CourseService {
 
     public void create(Course course);
+    public void update(Course course);
     public void getCourseByName(String courseName);
     public List<Course> getOwnerCourses(Long id);
 

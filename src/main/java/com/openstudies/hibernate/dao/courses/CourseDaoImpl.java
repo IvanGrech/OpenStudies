@@ -28,6 +28,11 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public void update(Course course) {
+        sessionFactory.getCurrentSession().update(course);
+    }
+
+    @Override
     public Course getCourseByName(String courseName) {
         if (courseName == null || courseName.equals("")) {
             throw new NullPointerException("Courses name was null or empty string");

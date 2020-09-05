@@ -21,6 +21,11 @@ public class CourseServiceImpl implements  CourseService{
     }
 
     @Override
+    public void update(Course course) {
+        courseDao.update(course);
+    }
+
+    @Override
     @Transactional
     public void getCourseByName(String courseName) {
     }

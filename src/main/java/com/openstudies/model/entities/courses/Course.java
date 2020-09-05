@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.openstudies.model.entities.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity(name = "COURSE")
@@ -16,6 +17,7 @@ public class Course {
     private Long id;
 
     @Column(name = "TAG")
+    @Size(min = 2, max = 32, message = "Название курса должно быть длинее")
     private String tag;
 
     @ManyToOne(fetch = FetchType.EAGER)
