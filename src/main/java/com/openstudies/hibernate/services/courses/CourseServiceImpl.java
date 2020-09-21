@@ -21,8 +21,15 @@ public class CourseServiceImpl implements  CourseService{
     }
 
     @Override
+    @Transactional
     public void update(Course course) {
         courseDao.update(course);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        courseDao.delete(id);
     }
 
     @Override
@@ -31,6 +38,7 @@ public class CourseServiceImpl implements  CourseService{
     }
 
     @Override
+    @Transactional
     public List getOwnerCourses(Long id) {
         return courseDao.getOwnerCourses(id);
     }

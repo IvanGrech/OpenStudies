@@ -32,6 +32,17 @@ public class CourseDaoImpl implements CourseDao {
         sessionFactory.getCurrentSession().update(course);
     }
 
+
+    @Override
+    public void delete(Long id) throws NullPointerException {
+        if (id == null) {
+            throw new NullPointerException("Id of course to delete was null");
+        }
+        Query deleteQuery = sessionFactory.getCurrentSession().createQuery("DELETE COURSE WHERE ID = :id");
+        deleteQuery.setParameter("id", id);
+        deleteQuery.executeUpdate();
+    }
+
     @Override
     public Course getCourseByName(String courseName) {
         if (courseName == null || courseName.equals("")) {
@@ -39,15 +50,15 @@ public class CourseDaoImpl implements CourseDao {
         }
         Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE TAG = :tg");
         query.setParameter("tg", courseName);
-        Course course = (Course)query.list().iterator().next();
+        Course course = (Course) query.list().iterator().next();
         return course;
     }
 
     @Override
     public List<Course> getOwnerCourses(Long id) {
-       Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE OWNER_ID = :id");
-       query.setParameter("id", id);
-       return query.list();
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE OWNER_ID = :id");
+        query.setParameter("id", id);
+        return query.list();
     }
 
     public SessionFactory getSessionFactory() {

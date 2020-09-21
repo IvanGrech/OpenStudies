@@ -9,17 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -36,8 +30,7 @@ public class CoursesWebService {
     private JwtTokenUtil jwtTokenUtil;
 
 
-    @POST
-    @RequestMapping(value = "/courses/create")
+    @RequestMapping(value = "/courses/create", method = RequestMethod.POST)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<?> create(@Valid @RequestBody Course course, HttpServletRequest request) {
         String ownerLogin = jwtTokenUtil.getUsernameFromToken(request.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
@@ -47,16 +40,16 @@ public class CoursesWebService {
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-    @GET
-    @RequestMapping(value = "/courses/{name}")
+
+    @RequestMapping(value = "/courses/{name}", method = RequestMethod.GET)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<?> getCourseByName(@PathVariable("name") String courseName) {
 
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GET
-    @RequestMapping(value = "/courses/owner/{login}")
+
+    @RequestMapping(value = "/courses/owner/{login}", method = RequestMethod.GET)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<?> getOwnerCourses(@PathVariable("login") String login, HttpServletRequest request) {
         String ownerLogin = jwtTokenUtil.getUsernameFromToken(request.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
@@ -69,12 +62,21 @@ public class CoursesWebService {
         }
     }
 
-    @PUT
-    @RequestMapping(value = "/courses")
+
+    @RequestMapping(value = "/courses", method = RequestMethod.PUT)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<?> updateCourse(@RequestBody Course course, HttpServletRequest request) {
         courseService.update(course);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+
+    @RequestMapping(value = "/courses/{id}", method = RequestMethod.DELETE)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResponseEntity<?> deleteCourse(@PathVariable("id") Long id) {
+        courseService.delete(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
 
 }

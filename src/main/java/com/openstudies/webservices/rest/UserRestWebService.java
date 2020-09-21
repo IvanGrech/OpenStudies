@@ -115,7 +115,7 @@ public class UserRestWebService {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GET
+
     @RequestMapping("/users")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<List<User>> getUser() {
@@ -123,7 +123,7 @@ public class UserRestWebService {
         return new ResponseEntity<List<User>>(list, HttpStatus.OK);
     }
 
-    @GET
+
     @RequestMapping("/users/login/{login}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<User> getUserByLogin(
@@ -135,7 +135,7 @@ public class UserRestWebService {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @GET
+
     @RequestMapping("/users/email/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<User> getUserByEmail(
@@ -147,7 +147,7 @@ public class UserRestWebService {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @GET
+
     @RequestMapping("/users/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
@@ -159,7 +159,7 @@ public class UserRestWebService {
     }
 
 
-    @POST
+
     @RequestMapping("/users/create")
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Map<String, String>> createUser(
@@ -191,7 +191,7 @@ public class UserRestWebService {
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-    @PUT
+
     @RequestMapping("/users/update")
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Map<String, String>> updateUser(
@@ -231,7 +231,7 @@ public class UserRestWebService {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @DELETE
+
     @RequestMapping("/users/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<String> deleteUser(@RequestBody User user) {
@@ -244,7 +244,7 @@ public class UserRestWebService {
         return new ResponseEntity<String>("user deleted", HttpStatus.OK);
     }
 
-    @DELETE
+
     @RequestMapping("/users/delete/login/{login}")
     public ResponseEntity<String> deleteUserByLogin(
             @PathVariable("login") String login) {
@@ -258,7 +258,7 @@ public class UserRestWebService {
         return new ResponseEntity<String>("user deleted", HttpStatus.OK);
     }
 
-    @GET
+
     @RequestMapping("/users/delete/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id) {
