@@ -1,4 +1,4 @@
-package com.openstudies.hibernate;
+package com.openstudies.hibernate.dao;
 
 import com.openstudies.model.entities.User;
 import org.hibernate.Query;
@@ -15,14 +15,6 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public void create(User user) {
@@ -41,7 +33,7 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
 
     @Override
     public List<User> findAll() {
-        Query query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM USER u");
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM os_user u");
         List list = null;
         list = query.list();
         return list;
@@ -53,9 +45,9 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
         if (login == null || login.equals("")) {
             throw new NullPointerException("Login was null or empty string");
         }
-        Query query = sessionFactory.getCurrentSession().createQuery("from USER WHERE LOGIN = :lg");
+        Query query = sessionFactory.getCurrentSession().createQuery("from os_user WHERE LOGIN = :lg");
         query.setParameter("lg", login);
-       User foundUser=(User) query.list().iterator().next();
+        User foundUser = (User) query.list().iterator().next();
         return foundUser;
     }
 
@@ -65,7 +57,7 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
             throw new NullPointerException("Email was null or empty string");
         }
 
-        Query query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM USER u WHERE EMAIL = :em");
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM os_user u WHERE EMAIL = :em");
         query.setParameter("em", email);
         return (User) query.list().iterator().next();
     }
@@ -76,7 +68,7 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
             throw new NullPointerException("Login was null or empty string");
         }
 
-        Query query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM USER u WHERE ID = :i");
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM os_user u WHERE ID = :i");
         query.setParameter("i", id);
         return (User) query.list().iterator().next();
     }
@@ -87,9 +79,17 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
             throw new NullPointerException("Login was null or empty string");
         }
 
-        Query query = sessionFactory.getCurrentSession().createQuery("DELETE FROM USER WHERE ID = :i");
+        Query query = sessionFactory.getCurrentSession().createQuery("DELETE FROM os_user WHERE ID = :i");
         query.setParameter("i", id);
         query.executeUpdate();
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
 }

@@ -19,8 +19,6 @@ import java.util.concurrent.TimeUnit;
 @ComponentScan(basePackages = {"com.openstudies"})
 public class WebAppConfig implements WebMvcConfigurer {
 
-
-
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();

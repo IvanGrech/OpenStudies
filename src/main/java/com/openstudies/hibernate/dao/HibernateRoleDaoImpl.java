@@ -1,4 +1,4 @@
-package com.openstudies.hibernate;
+package com.openstudies.hibernate.dao;
 
 
 import com.openstudies.model.entities.Role;
