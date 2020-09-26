@@ -11,14 +11,14 @@ import java.sql.Date;
 import java.util.List;
 
 
-@Entity(name = "USER")
-@Table(name = "USER")
+@Entity(name = "os_user")
+@Table(name = "os_user")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ROLE_ID")
@@ -47,7 +47,7 @@ public class User {
 
     }
 
-    public User(Long id) {
+    public User(Integer id) {
         this.id = id;
     }
 
@@ -63,7 +63,7 @@ public class User {
         this.birthday = birthday;
     }
 
-    public User(Long id, Role role, String login, String password, String email,
+    public User(Integer id, Role role, String login, String password, String email,
                 String firstName, String lastName, Date birthday) {
         this.id = id;
         this.role = role;
@@ -76,11 +76,11 @@ public class User {
     }
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

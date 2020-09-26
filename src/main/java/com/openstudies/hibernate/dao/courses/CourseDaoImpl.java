@@ -1,7 +1,6 @@
 package com.openstudies.hibernate.dao.courses;
 
 import com.openstudies.hibernate.services.UserService;
-import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -55,7 +54,7 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public List<Course> getOwnerCourses(Long id) {
+    public List<Course> getOwnerCourses(Integer id) {
         Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE OWNER_ID = :id");
         query.setParameter("id", id);
         return query.list();

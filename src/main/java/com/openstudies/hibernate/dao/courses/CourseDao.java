@@ -9,5 +9,5 @@ public interface CourseDao {
     public void update(Course course);
     public void delete(Long id);
     public Course getCourseByName(String courseName);
-    public List<Course> getOwnerCourses(Long id);
+    public List<Course> getOwnerCourses(Integer id);
 }

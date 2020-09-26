@@ -39,7 +39,7 @@ public class CourseServiceImpl implements  CourseService{
 
     @Override
     @Transactional
-    public List getOwnerCourses(Long id) {
+    public List getOwnerCourses(Integer id) {
         return courseDao.getOwnerCourses(id);
     }
 }
