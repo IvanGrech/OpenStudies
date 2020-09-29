@@ -1,6 +1,8 @@
 package com.openstudies.model.entities.courses;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "COURSE_ID", nullable = false)
+    @JsonIgnore
     private Course course;
 
     @Column(name = "TAG")

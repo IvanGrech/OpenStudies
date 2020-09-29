@@ -56,4 +56,10 @@ public class CourseServiceImpl implements  CourseService{
     public void addCourseTask(int courseId, Task task) {
         courseDao.addCourseTask(courseId, task);
     }
+
+    @Override
+    @Transactional
+    public List<Task> getCourseTasks(long courseId) {
+        return courseDao.getCourseTasks(courseId);
+    }
 }

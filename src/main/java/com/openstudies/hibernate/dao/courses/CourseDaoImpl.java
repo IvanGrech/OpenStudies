@@ -76,6 +76,13 @@ public class CourseDaoImpl implements CourseDao {
         sessionFactory.getCurrentSession().save(task);
     }
 
+    @Override
+    public List<Task> getCourseTasks(long courseId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM TASK WHERE COURSE_ID = :id");
+        query.setParameter("id", courseId);
+        return query.list();
+    }
+
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

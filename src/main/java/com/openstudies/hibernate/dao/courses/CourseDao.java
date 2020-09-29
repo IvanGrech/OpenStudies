@@ -19,4 +19,6 @@ public interface CourseDao {
     public List<Course> getOwnerCourses(Integer id);
 
     public void addCourseTask(long courseId, Task task);
+
+    public List<Task> getCourseTasks(long courseId);
 }

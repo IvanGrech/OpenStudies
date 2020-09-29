@@ -86,4 +86,11 @@ public class CoursesWebService {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.GET)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResponseEntity<?> getCourseTasks(@PathVariable("id") Integer id) {
+        List<Task> taskList = courseService.getCourseTasks(id);
+        return new ResponseEntity<>(taskList, HttpStatus.OK);
+    }
+
 }

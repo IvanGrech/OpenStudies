@@ -21,4 +21,6 @@ public interface CourseService {
 
     public void addCourseTask(int courseId, Task task);
 
+    public List<Task> getCourseTasks(long courseId);
+
 }
