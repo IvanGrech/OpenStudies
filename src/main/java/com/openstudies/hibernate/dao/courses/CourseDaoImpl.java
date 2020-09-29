@@ -2,6 +2,7 @@ package com.openstudies.hibernate.dao.courses;
 
 import com.openstudies.hibernate.services.UserService;
 import com.openstudies.model.entities.courses.Course;
+import com.openstudies.model.entities.courses.Task;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,13 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public void create(Course course) {
         sessionFactory.getCurrentSession().save(course);
+    }
+
+    @Override
+    public Course get(int id) {
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE ID = :id");
+        query.setParameter("id", id);
+        return (Course) query.list().iterator().next();
     }
 
     @Override
@@ -58,6 +66,14 @@ public class CourseDaoImpl implements CourseDao {
         Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE OWNER_ID = :id");
         query.setParameter("id", id);
         return query.list();
+    }
+
+    @Override
+    public void addCourseTask(long courseId, Task task) {
+        Course course = new Course();
+        course.setId(courseId);
+        task.setCourse(course);
+        sessionFactory.getCurrentSession().save(task);
     }
 
     public SessionFactory getSessionFactory() {

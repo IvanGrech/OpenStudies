@@ -5,6 +5,7 @@ import com.openstudies.hibernate.services.courses.CourseService;
 import com.openstudies.jwt.JwtTokenUtil;
 import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
+import com.openstudies.model.entities.courses.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -78,5 +79,11 @@ public class CoursesWebService {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.POST)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResponseEntity<?> createCourseTasks(@PathVariable("id") Integer id, @RequestBody Task task) {
+       courseService.addCourseTask(id, task);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 
 }

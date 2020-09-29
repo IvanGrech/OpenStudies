@@ -25,10 +25,6 @@ public class Course {
     @JsonIgnore
     private User owner;
 
-    @Column
-    @OneToMany()
-    @JsonIgnore
-    private List<Task> tasks;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -57,13 +53,6 @@ public class Course {
         this.owner = owner;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
 
     public String getDescription() {
         return description;

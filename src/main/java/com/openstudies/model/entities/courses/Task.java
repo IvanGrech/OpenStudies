@@ -11,6 +11,10 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "COURSE_ID", nullable = false)
+    private Course course;
+
     @Column(name = "TAG")
     private String tag;
 
@@ -29,6 +33,14 @@ public class Task {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public String getTag() {
