@@ -114,36 +114,13 @@ public class UserRestWebService {
     }
 
 
-    @RequestMapping("/users")
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity<List<User>> getUser() {
         List<User> list = userService.findAll();
         return new ResponseEntity<List<User>>(list, HttpStatus.OK);
     }
 
-
-    @RequestMapping("/users/login/{login}")
-    public ResponseEntity<User> getUserByLogin(
-            @PathVariable("login") String login) {
-        User user = userService.findByLogin(login);
-        if (user == null) {
-            return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
-
-
-    @RequestMapping("/users/email/{email}")
-    public ResponseEntity<User> getUserByEmail(
-            @PathVariable("email") String email) {
-        User user = userService.findByEmail(email);
-        if (user == null) {
-            return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
-
-
-    @RequestMapping("/users/id/{id}")
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         if (user == null) {
@@ -153,11 +130,9 @@ public class UserRestWebService {
     }
 
 
-
-    @RequestMapping("/users/create")
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<Map<String, String>> createUser(
             @RequestBody User user) {
-
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
@@ -185,7 +160,7 @@ public class UserRestWebService {
     }
 
 
-    @RequestMapping("/users/update")
+    @RequestMapping(value = "/users", method = RequestMethod.PUT)
     public ResponseEntity<Map<String, String>> updateUser(
             @RequestBody User editedUser) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -224,7 +199,7 @@ public class UserRestWebService {
     }
 
 
-    @RequestMapping("/users/delete")
+    @RequestMapping(value = "/users", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteUser(@RequestBody User user) {
         try {
             userService.remove(user);
@@ -235,22 +210,7 @@ public class UserRestWebService {
         return new ResponseEntity<String>("user deleted", HttpStatus.OK);
     }
 
-
-    @RequestMapping("/users/delete/login/{login}")
-    public ResponseEntity<String> deleteUserByLogin(
-            @PathVariable("login") String login) {
-        try {
-            User user = userService.findByLogin(login);
-            userService.remove(user);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("exception while deleting user",
-                    HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<String>("user deleted", HttpStatus.OK);
-    }
-
-
-    @RequestMapping("/users/delete/id/{id}")
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id) {
         try {
             userService.removeById(id);
