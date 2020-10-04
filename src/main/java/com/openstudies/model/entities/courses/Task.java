@@ -1,6 +1,10 @@
 package com.openstudies.model.entities.courses;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +14,12 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "COURSE_ID", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Course course;
 
     @Column(name = "TAG")
     private String tag;
@@ -29,6 +39,14 @@ public class Task {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public String getTag() {

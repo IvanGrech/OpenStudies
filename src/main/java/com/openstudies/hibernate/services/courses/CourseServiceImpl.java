@@ -3,6 +3,7 @@ package com.openstudies.hibernate.services.courses;
 
 import com.openstudies.hibernate.dao.courses.CourseDao;
 import com.openstudies.model.entities.courses.Course;
+import com.openstudies.model.entities.courses.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 public class CourseServiceImpl implements  CourseService{
+
     @Autowired
     private CourseDao courseDao;
 
@@ -18,6 +20,12 @@ public class CourseServiceImpl implements  CourseService{
     @Transactional
     public void create(Course course) {
         courseDao.create(course);
+    }
+
+    @Override
+    @Transactional
+    public Course get(int id) {
+        return courseDao.get(id);
     }
 
     @Override
@@ -41,5 +49,17 @@ public class CourseServiceImpl implements  CourseService{
     @Transactional
     public List getOwnerCourses(Integer id) {
         return courseDao.getOwnerCourses(id);
+    }
+
+    @Override
+    @Transactional
+    public Long addCourseTask(int courseId, Task task) {
+        return courseDao.addCourseTask(courseId, task);
+    }
+
+    @Override
+    @Transactional
+    public List<Task> getCourseTasks(long courseId) {
+        return courseDao.getCourseTasks(courseId);
     }
 }

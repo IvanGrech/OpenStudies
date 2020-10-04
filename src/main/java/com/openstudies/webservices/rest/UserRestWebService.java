@@ -23,8 +23,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,7 +115,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users")
-    @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<List<User>> getUser() {
         List<User> list = userService.findAll();
         return new ResponseEntity<List<User>>(list, HttpStatus.OK);
@@ -125,7 +122,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users/login/{login}")
-    @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<User> getUserByLogin(
             @PathVariable("login") String login) {
         User user = userService.findByLogin(login);
@@ -137,7 +133,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users/email/{email}")
-    @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<User> getUserByEmail(
             @PathVariable("email") String email) {
         User user = userService.findByEmail(email);
@@ -149,7 +144,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users/id/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         if (user == null) {
@@ -161,7 +155,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users/create")
-    @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Map<String, String>> createUser(
             @RequestBody User user) {
 
@@ -193,7 +186,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users/update")
-    @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Map<String, String>> updateUser(
             @RequestBody User editedUser) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -233,7 +225,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users/delete")
-    @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<String> deleteUser(@RequestBody User user) {
         try {
             userService.remove(user);
@@ -260,7 +251,6 @@ public class UserRestWebService {
 
 
     @RequestMapping("/users/delete/id/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id) {
         try {
             userService.removeById(id);
