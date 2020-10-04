@@ -1,5 +1,6 @@
 package com.openstudies.webservices.rest.courses;
 
+import com.openstudies.hibernate.services.FileService;
 import com.openstudies.hibernate.services.UserService;
 import com.openstudies.hibernate.services.courses.CourseService;
 import com.openstudies.jwt.JwtTokenUtil;
@@ -11,11 +12,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,6 +29,8 @@ public class CoursesWebService {
     CourseService courseService;
     @Autowired
     UserService userService;
+    @Autowired
+    FileService fileService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -80,14 +85,23 @@ public class CoursesWebService {
     }
 
     @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.POST)
-    @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<?> createCourseTasks(@PathVariable("id") Integer id, @RequestBody Task task) {
-       courseService.addCourseTask(id, task);
+        long taskId = courseService.addCourseTask(id, task);
+        return new ResponseEntity<>(taskId, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/courses/{id}/tasks/{taskId}/file", method = RequestMethod.POST, consumes = {org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> addCourseTaskFile(@PathVariable("id") Integer courseId, @PathVariable("taskId") Long taskId, @RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
+        try {
+            fileService.saveTaskFile(file, taskId);
+        } catch (IOException e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.GET)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
     public ResponseEntity<?> getCourseTasks(@PathVariable("id") Integer id) {
         List<Task> taskList = courseService.getCourseTasks(id);
         return new ResponseEntity<>(taskList, HttpStatus.OK);

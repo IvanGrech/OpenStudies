@@ -19,7 +19,7 @@ public interface CourseService {
 
     public List<Course> getOwnerCourses(Integer id);
 
-    public void addCourseTask(int courseId, Task task);
+    public Long addCourseTask(int courseId, Task task);
 
     public List<Task> getCourseTasks(long courseId);
 

@@ -69,11 +69,11 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public void addCourseTask(long courseId, Task task) {
+    public Long addCourseTask(long courseId, Task task) {
         Course course = new Course();
         course.setId(courseId);
         task.setCourse(course);
-        sessionFactory.getCurrentSession().save(task);
+        return (Long) sessionFactory.getCurrentSession().save(task);
     }
 
     @Override
