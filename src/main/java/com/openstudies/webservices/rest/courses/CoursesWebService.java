@@ -34,7 +34,7 @@ public class CoursesWebService {
     private JwtTokenUtil jwtTokenUtil;
 
 
-    @RequestMapping(value = "/courses/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/courses", method = RequestMethod.POST)
     public ResponseEntity<?> create(@Valid @RequestBody Course course, HttpServletRequest request) {
         String ownerLogin = jwtTokenUtil.getUsernameFromToken(request.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
         User user = userService.findByLogin(ownerLogin);
