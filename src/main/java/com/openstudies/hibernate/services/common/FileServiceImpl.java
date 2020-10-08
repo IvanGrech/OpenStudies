@@ -1,4 +1,4 @@
-package com.openstudies.hibernate.services;
+package com.openstudies.hibernate.services.common;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -27,6 +31,15 @@ public class FileServiceImpl implements FileService {
         if (taskFile.createNewFile()) {
             file.transferTo(taskFile);
         }
+    }
 
+    @Override
+    public List<String> getTaskFileNames(Long taskId) {
+        File folder = new File(tasksPath + taskId);
+        String [] fileNames = folder.list();
+        if(fileNames == null) {
+            return new ArrayList<>(0);
+        }
+        return Arrays.asList(fileNames);
     }
 }

@@ -1,6 +1,6 @@
 package com.openstudies.hibernate.dao.courses;
 
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
 import org.hibernate.SessionFactory;
@@ -81,6 +81,16 @@ public class CourseDaoImpl implements CourseDao {
         Query query = sessionFactory.getCurrentSession().createQuery("FROM TASK WHERE COURSE_ID = :id");
         query.setParameter("id", courseId);
         return query.list();
+    }
+
+    @Override
+    public Task getTask(long taskId) {
+        return sessionFactory.getCurrentSession().find(Task.class, taskId);
+    }
+
+    @Override
+    public void saveTask(Task task) {
+        sessionFactory.getCurrentSession().save(task);
     }
 
     public SessionFactory getSessionFactory() {

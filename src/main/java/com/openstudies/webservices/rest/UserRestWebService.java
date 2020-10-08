@@ -1,8 +1,8 @@
 package com.openstudies.webservices.rest;
 
 import com.openstudies.captcha.CaptchaService;
-import com.openstudies.hibernate.services.RoleService;
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.RoleService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.jwt.JwtRequest;
 import com.openstudies.jwt.JwtResponse;
 import com.openstudies.jwt.JwtTokenUtil;

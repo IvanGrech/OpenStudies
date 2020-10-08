@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class CourseServiceImpl implements  CourseService{
+public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseDao courseDao;
@@ -61,5 +61,16 @@ public class CourseServiceImpl implements  CourseService{
     @Transactional
     public List<Task> getCourseTasks(long courseId) {
         return courseDao.getCourseTasks(courseId);
+    }
+
+    @Override
+    @Transactional
+    public Task getTask(long taskId) {
+        return courseDao.getTask(taskId);
+    }
+
+    @Override
+    public void saveTask(Task task) {
+        courseDao.saveTask(task);
     }
 }

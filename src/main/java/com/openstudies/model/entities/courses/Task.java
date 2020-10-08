@@ -27,8 +27,8 @@ public class Task {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "FILE_LOCATIONS")
-    private String filesLocations;
+    @Transient
+    private List<String> fileNames;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<CompletedTask> completedTask;
@@ -65,19 +65,19 @@ public class Task {
         this.description = description;
     }
 
-    public String getFilesLocations() {
-        return filesLocations;
-    }
-
-    public void setFilesLocations(String filesLocations) {
-        this.filesLocations = filesLocations;
-    }
-
     public List<CompletedTask> getCompletedTask() {
         return completedTask;
     }
 
     public void setCompletedTask(List<CompletedTask> completedTask) {
         this.completedTask = completedTask;
+    }
+
+    public List<String> getFileNames() {
+        return fileNames;
+    }
+
+    public void setFileNames(List<String> fileNames) {
+        this.fileNames = fileNames;
     }
 }
