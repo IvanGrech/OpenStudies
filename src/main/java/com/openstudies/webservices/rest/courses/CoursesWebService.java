@@ -1,7 +1,7 @@
 package com.openstudies.webservices.rest.courses;
 
-import com.openstudies.hibernate.services.FileService;
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.FileService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.hibernate.services.courses.CourseService;
 import com.openstudies.jwt.JwtTokenUtil;
 import com.openstudies.model.entities.User;
@@ -96,6 +96,10 @@ public class CoursesWebService {
     @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.GET)
     public ResponseEntity<?> getCourseTasks(@PathVariable("id") Integer id) {
         List<Task> taskList = courseService.getCourseTasks(id);
+        taskList.stream().forEach(task -> {
+            List<String> fileNames = fileService.getTaskFileNames(task.getId());
+            task.setFileNames(fileNames);
+        });
         return new ResponseEntity<>(taskList, HttpStatus.OK);
     }
 
