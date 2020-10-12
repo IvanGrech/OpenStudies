@@ -8,14 +8,20 @@ import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -101,6 +107,17 @@ public class CoursesWebService {
             task.setFileNames(fileNames);
         });
         return new ResponseEntity<>(taskList, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/courses/task/{id}/file/{fileName}/", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getTaskFile(@PathVariable("id") Long taskId, @PathVariable("fileName") String fileName) throws FileNotFoundException {
+        File file = fileService.getTaskFile(taskId, fileName);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 
 }
