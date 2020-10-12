@@ -47,4 +47,15 @@ public class FileServiceImpl implements FileService {
     public File getTaskFile(Long taskId, String fileName) {
         return new File(tasksPath + taskId + "\\" + fileName);
     }
+
+    @Override
+    public void deleteTaskFiles(Long taskId) {
+        File folder = new File(tasksPath + taskId);
+        File[] filePaths = folder.listFiles();
+        if (filePaths != null) {
+            for (File file : filePaths) {
+               file.delete();
+            }
+        }
+    }
 }

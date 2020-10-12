@@ -88,6 +88,13 @@ public class CourseDaoImpl implements CourseDao {
         sessionFactory.getCurrentSession().save(task);
     }
 
+    @Override
+    public void deleteTask(Long id) {
+        Query query = sessionFactory.getCurrentSession().createQuery("DELETE FROM TASK WHERE ID = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

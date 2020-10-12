@@ -25,4 +25,6 @@ public interface CourseDao {
     Task getTask(long taskId);
 
     void saveTask(Task task);
+
+    void deleteTask(Long id);
 }

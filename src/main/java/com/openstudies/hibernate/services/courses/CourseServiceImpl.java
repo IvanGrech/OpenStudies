@@ -70,7 +70,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void saveTask(Task task) {
         courseDao.saveTask(task);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTask(Long taskId) {
+        courseDao.deleteTask(taskId);
     }
 }

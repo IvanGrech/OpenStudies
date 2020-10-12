@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-
     public User findByEmail(String email) {
         try {
             return hibernateUserDao.findByEmail(email);

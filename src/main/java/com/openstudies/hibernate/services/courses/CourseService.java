@@ -27,4 +27,5 @@ public interface CourseService {
 
     void saveTask(Task task);
 
+    void deleteTask(Long taskId);
 }
