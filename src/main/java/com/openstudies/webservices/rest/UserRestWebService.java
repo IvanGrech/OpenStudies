@@ -121,7 +121,7 @@ public class UserRestWebService {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
         User user = userService.findById(id);
         if (user == null) {
             return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);

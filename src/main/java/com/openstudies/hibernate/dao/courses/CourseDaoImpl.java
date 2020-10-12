@@ -19,9 +19,6 @@ public class CourseDaoImpl implements CourseDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private UserService userService;
-
     @Override
     public void create(Course course) {
         sessionFactory.getCurrentSession().save(course);
@@ -29,9 +26,7 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public Course get(int id) {
-        Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE ID = :id");
-        query.setParameter("id", id);
-        return (Course) query.list().iterator().next();
+        return sessionFactory.getCurrentSession().find(Course.class, id);
     }
 
     @Override

@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Integer id) {
         try {
             return hibernateUserDao.findById(id);
         } catch (Exception e) {

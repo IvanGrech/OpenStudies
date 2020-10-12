@@ -19,7 +19,7 @@ public interface HibernateUserDao {
 
     public User findByEmail(String email);
 
-    public User findById(Long id);
+    public User findById(Integer id);
 
     public void removeById(Long id);
 }
