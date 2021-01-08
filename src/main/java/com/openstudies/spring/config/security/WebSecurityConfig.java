@@ -1,6 +1,6 @@
 package com.openstudies.spring.config.security;
 
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.jwt.JwtAuthenticationEntryPoint;
 import com.openstudies.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;

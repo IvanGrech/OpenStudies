@@ -1,6 +1,6 @@
 package com.openstudies.hibernate.dao.courses;
 
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
 import org.hibernate.SessionFactory;
@@ -19,9 +19,6 @@ public class CourseDaoImpl implements CourseDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private UserService userService;
-
     @Override
     public void create(Course course) {
         sessionFactory.getCurrentSession().save(course);
@@ -29,9 +26,7 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public Course get(int id) {
-        Query query = sessionFactory.getCurrentSession().createQuery("FROM COURSE WHERE ID = :id");
-        query.setParameter("id", id);
-        return (Course) query.list().iterator().next();
+        return sessionFactory.getCurrentSession().find(Course.class, id);
     }
 
     @Override
@@ -81,6 +76,23 @@ public class CourseDaoImpl implements CourseDao {
         Query query = sessionFactory.getCurrentSession().createQuery("FROM TASK WHERE COURSE_ID = :id");
         query.setParameter("id", courseId);
         return query.list();
+    }
+
+    @Override
+    public Task getTask(long taskId) {
+        return sessionFactory.getCurrentSession().find(Task.class, taskId);
+    }
+
+    @Override
+    public void saveTask(Task task) {
+        sessionFactory.getCurrentSession().save(task);
+    }
+
+    @Override
+    public void deleteTask(Long id) {
+        Query query = sessionFactory.getCurrentSession().createQuery("DELETE FROM TASK WHERE ID = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     public SessionFactory getSessionFactory() {

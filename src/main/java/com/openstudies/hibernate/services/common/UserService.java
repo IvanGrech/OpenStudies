@@ -1,4 +1,4 @@
-package com.openstudies.hibernate.services;
+package com.openstudies.hibernate.services.common;
 
 import com.openstudies.model.entities.User;
 
@@ -18,7 +18,7 @@ public interface UserService {
 
     public User findByEmail(String email);
 
-    public User findById(Long id);
+    public User findById(Integer id);
 
     public void removeById(Long id);
 

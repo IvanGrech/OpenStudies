@@ -23,4 +23,9 @@ public interface CourseService {
 
     public List<Task> getCourseTasks(long courseId);
 
+    Task getTask(long taskId);
+
+    void saveTask(Task task);
+
+    void deleteTask(Long taskId);
 }

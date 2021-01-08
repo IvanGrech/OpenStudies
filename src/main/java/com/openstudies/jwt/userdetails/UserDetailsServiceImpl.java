@@ -1,7 +1,7 @@
 package com.openstudies.jwt.userdetails;
 
 
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.model.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

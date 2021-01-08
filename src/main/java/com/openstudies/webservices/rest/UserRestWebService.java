@@ -1,8 +1,8 @@
 package com.openstudies.webservices.rest;
 
 import com.openstudies.captcha.CaptchaService;
-import com.openstudies.hibernate.services.RoleService;
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.RoleService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.jwt.JwtRequest;
 import com.openstudies.jwt.JwtResponse;
 import com.openstudies.jwt.JwtTokenUtil;
@@ -121,7 +121,7 @@ public class UserRestWebService {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
         User user = userService.findById(id);
         if (user == null) {
             return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);

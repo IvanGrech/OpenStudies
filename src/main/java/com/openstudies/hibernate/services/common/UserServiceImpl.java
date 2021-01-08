@@ -1,4 +1,4 @@
-package com.openstudies.hibernate.services;
+package com.openstudies.hibernate.services.common;
 
 import com.openstudies.hibernate.dao.HibernateUserDao;
 import com.openstudies.model.entities.User;
@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-
     public User findByEmail(String email) {
         try {
             return hibernateUserDao.findByEmail(email);
@@ -65,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Integer id) {
         try {
             return hibernateUserDao.findById(id);
         } catch (Exception e) {

@@ -17,14 +17,6 @@ public class HibernateRoleDaoImpl implements HibernateRoleDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
     @Override
     public void create(Role role) {
         sessionFactory.getCurrentSession().save(role);
@@ -34,6 +26,7 @@ public class HibernateRoleDaoImpl implements HibernateRoleDao {
     public void update(Role role) {
         sessionFactory.getCurrentSession().update(role);
     }
+
     @Override
     public void remove(Role role) {
         sessionFactory.getCurrentSession().delete(role);
@@ -48,22 +41,24 @@ public class HibernateRoleDaoImpl implements HibernateRoleDao {
         Query query = sessionFactory.getCurrentSession().createQuery("FROM ROLE WHERE NAME = :name");
         query.setParameter("name", name);
         list = query.list();
-        return (Role)list.iterator().next();
+        return (Role) list.iterator().next();
 
     }
 
     @Override
     public Role findRoleById(Long id) {
-
         if (id == null) {
             throw new NullPointerException("Id must not be null!");
         }
+        return sessionFactory.getCurrentSession().find(Role.class, id);
+    }
 
-        List list = null;
-        Query query = sessionFactory.getCurrentSession().createQuery("FROM ROLE WHERE ID = :id");
-        query.setParameter("id", id);
-        list = query.list();
-        return (Role)list.iterator().next();
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
 }

@@ -1,21 +1,27 @@
 package com.openstudies.webservices.rest.courses;
 
-import com.openstudies.hibernate.services.FileService;
-import com.openstudies.hibernate.services.UserService;
+import com.openstudies.hibernate.services.common.FileService;
+import com.openstudies.hibernate.services.common.UserService;
 import com.openstudies.hibernate.services.courses.CourseService;
 import com.openstudies.jwt.JwtTokenUtil;
 import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -96,7 +102,29 @@ public class CoursesWebService {
     @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.GET)
     public ResponseEntity<?> getCourseTasks(@PathVariable("id") Integer id) {
         List<Task> taskList = courseService.getCourseTasks(id);
+        taskList.stream().forEach(task -> {
+            List<String> fileNames = fileService.getTaskFileNames(task.getId());
+            task.setFileNames(fileNames);
+        });
         return new ResponseEntity<>(taskList, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/courses/task/{id}/file/{fileName}/", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getTaskFile(@PathVariable("id") Long taskId, @PathVariable("fileName") String fileName) throws FileNotFoundException {
+        File file = fileService.getTaskFile(taskId, fileName);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
+
+    @RequestMapping(value = "/courses/task/{taskId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteTask(@PathVariable("taskId") Long taskId) {
+        fileService.deleteTaskFiles(taskId);
+        courseService.deleteTask(taskId);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 }

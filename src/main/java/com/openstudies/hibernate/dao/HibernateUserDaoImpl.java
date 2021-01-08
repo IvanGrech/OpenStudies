@@ -63,14 +63,12 @@ public class HibernateUserDaoImpl implements HibernateUserDao {
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Integer id) {
         if (id == null) {
-            throw new NullPointerException("Login was null or empty string");
+            throw new NullPointerException("Id was null or empty string");
         }
 
-        Query query = sessionFactory.getCurrentSession().createQuery("SELECT u FROM os_user u WHERE ID = :i");
-        query.setParameter("i", id);
-        return (User) query.list().iterator().next();
+        return sessionFactory.getCurrentSession().find(User.class, id);
     }
 
     @Override

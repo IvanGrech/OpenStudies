@@ -20,7 +20,7 @@ public class Course {
     @Size(min = 2, max = 32, message = "Название курса должно быть длинее")
     private String tag;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OWNER_ID")
     @JsonIgnore
     private User owner;
