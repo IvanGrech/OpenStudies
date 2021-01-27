@@ -198,25 +198,9 @@ public class UserRestWebService {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-
-    @RequestMapping(value = "/users", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteUser(@RequestBody User user) {
-        try {
-            userService.remove(user);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("exception while deleting user",
-                    HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<String>("user deleted", HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id) {
-        try {
-            userService.removeById(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<String> deleteUserById(@PathVariable("id") Integer id) {
+        userService.removeById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -1,9 +1,10 @@
 package com.openstudies.hibernate.services.courses;
 
 
-import com.openstudies.hibernate.dao.courses.CourseDao;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
+import com.openstudies.repositories.CourseRepository;
+import com.openstudies.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,70 +15,41 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
-    private CourseDao courseDao;
+    CourseRepository courseRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
 
     @Override
     @Transactional
     public void create(Course course) {
-        courseDao.create(course);
-    }
-
-    @Override
-    @Transactional
-    public Course get(int id) {
-        return courseDao.get(id);
-    }
-
-    @Override
-    @Transactional
-    public void update(Course course) {
-        courseDao.update(course);
+        courseRepository.save(course);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        courseDao.delete(id);
+        courseRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void getCourseByName(String courseName) {
-    }
-
-    @Override
-    @Transactional
-    public List getOwnerCourses(Integer id) {
-        return courseDao.getOwnerCourses(id);
-    }
-
-    @Override
-    @Transactional
-    public Long addCourseTask(int courseId, Task task) {
-        return courseDao.addCourseTask(courseId, task);
+    public Task addCourseTask(Long courseId, Task task) {
+        Course course = new Course();
+        course.setId(courseId);
+        task.setCourse(course);
+        return taskRepository.save(task);
     }
 
     @Override
     @Transactional
     public List<Task> getCourseTasks(long courseId) {
-        return courseDao.getCourseTasks(courseId);
-    }
-
-    @Override
-    @Transactional
-    public Task getTask(long taskId) {
-        return courseDao.getTask(taskId);
-    }
-
-    @Override
-    @Transactional
-    public void saveTask(Task task) {
-        courseDao.saveTask(task);
+        return taskRepository.findByCourseId(courseId);
     }
 
     @Override
     @Transactional
     public void deleteTask(Long taskId) {
-        courseDao.deleteTask(taskId);
+        taskRepository.deleteById(taskId);
     }
 }

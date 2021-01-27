@@ -20,6 +20,6 @@ public interface UserService {
 
     public User findById(Integer id);
 
-    public void removeById(Long id);
+    public void removeById(Integer id);
 
 }

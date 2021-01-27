@@ -7,6 +7,7 @@ import com.openstudies.jwt.JwtTokenUtil;
 import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
+import com.openstudies.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -31,6 +32,9 @@ public class CoursesWebService {
 
     @Autowired
     CourseService courseService;
+    @Autowired
+    CourseRepository courseRepository;
+
     @Autowired
     UserService userService;
     @Autowired
@@ -62,20 +66,12 @@ public class CoursesWebService {
         String ownerLogin = jwtTokenUtil.getUsernameFromToken(request.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
         if (ownerLogin.equals(login)) {
             User user = userService.findByLogin(login);
-            List<Course> courseList = courseService.getOwnerCourses(user.getId());
+            List<Course> courseList = courseRepository.findByOwnerId(user.getId());
             return new ResponseEntity<>(courseList, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
     }
-
-
-    @RequestMapping(value = "/courses", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateCourse(@RequestBody Course course, HttpServletRequest request) {
-        courseService.update(course);
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
 
     @RequestMapping(value = "/courses/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteCourse(@PathVariable("id") Long id) {
@@ -84,9 +80,9 @@ public class CoursesWebService {
     }
 
     @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.POST)
-    public ResponseEntity<?> createCourseTasks(@PathVariable("id") Integer id, @RequestBody Task task) {
-        long taskId = courseService.addCourseTask(id, task);
-        return new ResponseEntity<>(taskId, HttpStatus.OK);
+    public ResponseEntity<?> createCourseTasks(@PathVariable("id") Long id, @RequestBody Task task) {
+        Task createdTask = courseService.addCourseTask(id, task);
+        return new ResponseEntity<>(createdTask.getId(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/courses/{id}/tasks/{taskId}/file", method = RequestMethod.POST, consumes = {org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE})
