@@ -29,14 +29,14 @@ public class HibernateConfiguration {
     @Autowired
     private Environment env;
 
-    @Bean
+   /* @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("com.openstudies");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
-    }
+    }*/
 
     @Bean
     public DataSource dataSource() {

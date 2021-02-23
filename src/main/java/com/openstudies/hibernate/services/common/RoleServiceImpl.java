@@ -1,7 +1,7 @@
 package com.openstudies.hibernate.services.common;
 
-import com.openstudies.hibernate.dao.HibernateRoleDao;
 import com.openstudies.model.entities.Role;
+import com.openstudies.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    HibernateRoleDao dao;
+    RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -21,33 +21,7 @@ public class RoleServiceImpl implements RoleService {
             throw new NullPointerException("role was null");
         }
         try {
-            dao.create(role);
-        } catch (Exception e) {
-
-        }
-    }
-
-    @Override
-    @Transactional
-    public void update(Role role) {
-        if (role == null) {
-            throw new NullPointerException("role was null");
-        }
-        try {
-            dao.update(role);
-        } catch (Exception e) {
-
-        }
-    }
-
-    @Override
-    @Transactional
-    public void remove(Role role) {
-        if (role == null) {
-            throw new NullPointerException("role was null");
-        }
-        try {
-            dao.remove(role);
+            roleRepository.save(role);
         } catch (Exception e) {
 
         }
@@ -60,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
             throw new NullPointerException("name was null");
         }
         try {
-            return dao.findByName(name);
+            return roleRepository.findByName(name);
         } catch (Exception e) {
             if (e instanceof NoSuchElementException) {
                 return  null;
@@ -68,21 +42,4 @@ public class RoleServiceImpl implements RoleService {
         }
         return null;
     }
-
-    @Override
-    @Transactional
-    public Role findById(Long id) {
-        if (id == null) {
-            throw new NullPointerException("id was null");
-        }
-        try {
-            return dao.findRoleById(id);
-        }catch (Exception e){
-            if(e instanceof NoSuchElementException){
-                return  null;
-            }
-        }
-        return null;
-    }
-
 }
