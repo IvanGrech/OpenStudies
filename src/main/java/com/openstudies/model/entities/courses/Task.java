@@ -2,8 +2,6 @@ package com.openstudies.model.entities.courses;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,7 +15,6 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "COURSE_ID", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Course course;
 

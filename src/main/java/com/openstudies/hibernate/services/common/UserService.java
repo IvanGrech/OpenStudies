@@ -6,20 +6,22 @@ import java.util.List;
 
 public interface UserService {
 
-    public void create(User user);
+    void create(User user);
 
-    public void update(User user);
+    void update(User user);
 
-    public void remove(User user);
+    void remove(User user);
 
-    public List<User> findAll();
+    List<User> findAll();
 
-    public User findByLogin(String login);
+    User findByLogin(String login);
 
-    public User findByEmail(String email);
+    User findByEmail(String email);
 
-    public User findById(Integer id);
+    User findById(Integer id);
 
-    public void removeById(Integer id);
+    void removeById(Integer id);
+
+    User getCurrentUser(String authHeader);
 
 }

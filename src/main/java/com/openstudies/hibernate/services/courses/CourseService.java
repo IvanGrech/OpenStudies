@@ -1,7 +1,9 @@
 package com.openstudies.hibernate.services.courses;
 
+import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ public interface CourseService {
     List<Task> getCourseTasks(long courseId);
 
     void deleteTask(Long taskId);
+
+    ResponseEntity<?> subscribeUserToCourse(String courseCode, User user);
 }

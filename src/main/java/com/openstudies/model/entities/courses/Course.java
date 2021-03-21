@@ -6,7 +6,7 @@ import com.openstudies.model.entities.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 @Entity(name = "COURSE")
 @Table(name = "COURSE")
@@ -28,6 +28,17 @@ public class Course {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "COURSE_CODE")
+    private String courseCode;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_courses",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")})
+    private Set<User> usersSubscribed;
 
     public Long getId() {
         return id;
@@ -61,4 +72,21 @@ public class Course {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public Set<User> getUsersSubscribed() {
+        return usersSubscribed;
+    }
+
+    public void setUsersSubscribed(Set<User> usersSubscribed) {
+        this.usersSubscribed = usersSubscribed;
+    }
+
 }

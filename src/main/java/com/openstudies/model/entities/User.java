@@ -1,5 +1,6 @@
 package com.openstudies.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.openstudies.model.entities.courses.Course;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.sql.Date;
-import java.util.List;
+import java.util.Set;
 
 
 @Entity(name = "os_user")
@@ -42,6 +43,10 @@ public class User {
 
     @Column(name = "BIRTHDAY")
     private Date birthday;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "usersSubscribed", fetch = FetchType.LAZY)
+    private Set<Course> subscribedCourses;
 
     public User() {
 
@@ -138,6 +143,14 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public Set<Course> getSubscribedCourses() {
+        return subscribedCourses;
+    }
+
+    public void setSubscribedCourses(Set<Course> subscribedCourses) {
+        this.subscribedCourses = subscribedCourses;
     }
 
     @Override

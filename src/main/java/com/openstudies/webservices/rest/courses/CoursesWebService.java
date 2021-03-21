@@ -49,6 +49,7 @@ public class CoursesWebService {
         String ownerLogin = jwtTokenUtil.getUsernameFromToken(request.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
         User user = userService.findByLogin(ownerLogin);
         course.setOwner(user);
+        course.setCourseCode(String.valueOf(course.hashCode()));
         courseService.create(course);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
@@ -121,6 +122,12 @@ public class CoursesWebService {
         fileService.deleteTaskFiles(taskId);
         courseService.deleteTask(taskId);
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/courses/subscribe/{courseCode}", method = RequestMethod.PUT)
+    public ResponseEntity subscribeToTask(@PathVariable("courseCode") String courseCode, @RequestHeader("Authorization") String authHeader) {
+        User currentUser = userService.getCurrentUser(authHeader);
+        return courseService.subscribeUserToCourse(courseCode, currentUser);
     }
 
 }

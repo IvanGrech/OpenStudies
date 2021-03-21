@@ -1,5 +1,6 @@
 package com.openstudies.hibernate.services.common;
 
+import com.openstudies.jwt.JwtTokenUtil;
 import com.openstudies.model.entities.User;
 import com.openstudies.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Override
     @Transactional
@@ -74,5 +78,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void removeById(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User getCurrentUser(String authHeader) {
+        String ownerLogin = jwtTokenUtil.getUsernameFromToken(authHeader.substring(7));
+        User user = userRepository.findByLogin(ownerLogin);
+        return user;
     }
 }

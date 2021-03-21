@@ -10,4 +10,5 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findByOwnerId(Integer ownerId);
 
+    Course findByCourseCode(String courseCode);
 }
