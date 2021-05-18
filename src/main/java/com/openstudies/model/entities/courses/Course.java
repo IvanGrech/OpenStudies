@@ -36,8 +36,8 @@ public class Course {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_courses",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "course_id")})
+            joinColumns = {@JoinColumn(name = "course_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> usersSubscribed;
 
     public Long getId() {

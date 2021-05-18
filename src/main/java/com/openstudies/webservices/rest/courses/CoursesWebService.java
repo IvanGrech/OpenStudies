@@ -7,7 +7,9 @@ import com.openstudies.jwt.JwtTokenUtil;
 import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
+import com.openstudies.model.entities.courses.User2Courses;
 import com.openstudies.repositories.CourseRepository;
+import com.openstudies.repositories.User2CoursesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -41,6 +44,9 @@ public class CoursesWebService {
     FileService fileService;
 
     @Autowired
+    User2CoursesRepository user2CoursesRepository;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
 
@@ -54,14 +60,6 @@ public class CoursesWebService {
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-
-    @RequestMapping(value = "/courses/{name}", method = RequestMethod.GET)
-    public ResponseEntity<?> getCourseByName(@PathVariable("name") String courseName) {
-
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
-
     @RequestMapping(value = "/courses/owner/{login}", method = RequestMethod.GET)
     public ResponseEntity<?> getOwnerCourses(@PathVariable("login") String login, HttpServletRequest request) {
         String ownerLogin = jwtTokenUtil.getUsernameFromToken(request.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
@@ -72,6 +70,17 @@ public class CoursesWebService {
         } else {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
+    }
+
+    @RequestMapping(value = "/courses/subscribed", method = RequestMethod.GET)
+    public ResponseEntity<?> getSubscribedCourses(@RequestHeader("Authorization") String authHeader) {
+        User currentUser = userService.getCurrentUser(authHeader);
+        List<User2Courses> user2CoursesList = user2CoursesRepository.findByUserId(currentUser.getId());
+        List<Course> courseList = new LinkedList<>();
+        user2CoursesList.forEach((user2Courses) ->
+                courseList.add(courseRepository.findById(user2Courses.getUser2CoursesPK().getCourseId()).get())
+        );
+        return new ResponseEntity<>(courseList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/courses/{id}", method = RequestMethod.DELETE)
