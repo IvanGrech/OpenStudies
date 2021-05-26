@@ -27,6 +27,9 @@ public class Task {
     @Transient
     private List<String> fileNames;
 
+    @Transient
+    private List<String> userFileNames;
+
     @OneToMany(fetch = FetchType.EAGER)
     private List<CompletedTask> completedTask;
 
@@ -76,5 +79,13 @@ public class Task {
 
     public void setFileNames(List<String> fileNames) {
         this.fileNames = fileNames;
+    }
+
+    public List<String> getUserFileNames() {
+        return userFileNames;
+    }
+
+    public void setUserFileNames(List<String> userFileNames) {
+        this.userFileNames = userFileNames;
     }
 }

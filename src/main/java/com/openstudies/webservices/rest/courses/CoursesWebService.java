@@ -106,13 +106,26 @@ public class CoursesWebService {
     }
 
     @RequestMapping(value = "/courses/{id}/tasks", method = RequestMethod.GET)
-    public ResponseEntity<?> getCourseTasks(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> getCourseTasks(@PathVariable("id") Integer id, @RequestHeader("Authorization") String authHeader) {
+        User currentUser = userService.getCurrentUser(authHeader);
+        Course course = courseRepository.findById(Long.valueOf(id)).get();
+        if(course.getOwner().getId().equals(currentUser.getId())) {
+            List<Task> taskList = courseService.getCourseTasks(id);
+            taskList.stream().forEach(task -> {
+                List<String> fileNames = fileService.getTaskFileNames(task.getId());
+                task.setFileNames(fileNames);
+            });
+            return new ResponseEntity<>(taskList, HttpStatus.OK);
+        }
         List<Task> taskList = courseService.getCourseTasks(id);
         taskList.stream().forEach(task -> {
             List<String> fileNames = fileService.getTaskFileNames(task.getId());
             task.setFileNames(fileNames);
+            List<String> userFileNames = fileService.getTaskFileNamesForSubscribedUser(task.getId(), currentUser.getId());
+            task.setUserFileNames(userFileNames);
         });
         return new ResponseEntity<>(taskList, HttpStatus.OK);
+
     }
 
 
@@ -149,6 +162,17 @@ public class CoursesWebService {
         }
 
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/courses/task/{id}/file/{fileName}/subscribed", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getTaskAnswerFile(@PathVariable("id") Long taskId, @PathVariable("fileName") String fileName, @RequestHeader("Authorization") String authHeader) throws FileNotFoundException {
+        User currentUser = userService.getCurrentUser(authHeader);
+        File file = fileService.getTaskAnswerFile(taskId, currentUser.getId(), fileName);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 
 }

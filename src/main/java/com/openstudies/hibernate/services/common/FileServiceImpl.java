@@ -60,6 +60,22 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public List<String> getTaskFileNamesForSubscribedUser(Long taskId, Integer userId) {
+        File folder = new File(tasksPath + userTasksPrefix + taskId + "\\" + userId);
+        String[] fileNames = folder.list();
+        if (fileNames == null) {
+            return new ArrayList<>(0);
+        }
+        return Arrays.asList(fileNames);
+    }
+
+    @Override
+    public File getTaskAnswerFile(Long taskId, Integer userId, String fileName) {
+        return new File(tasksPath + userTasksPrefix + taskId + "\\" + userId
+                + "\\" + fileName);
+    }
+
+    @Override
     public File getTaskFile(Long taskId, String fileName) {
         return new File(tasksPath + taskId + "\\" + fileName);
     }

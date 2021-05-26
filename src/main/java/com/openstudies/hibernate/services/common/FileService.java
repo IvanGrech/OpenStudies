@@ -14,7 +14,11 @@ public interface FileService {
 
     List<String> getTaskFileNames(Long taskId);
 
+    List<String> getTaskFileNamesForSubscribedUser(Long taskId, Integer userId);
+
     File getTaskFile(Long taskId, String fileName);
+
+    File getTaskAnswerFile(Long taskId, Integer userId, String fileName);
 
     void deleteTaskFiles(Long taskId);
 
