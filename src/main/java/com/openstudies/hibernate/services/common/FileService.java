@@ -10,6 +10,8 @@ public interface FileService {
 
     void saveTaskFile(MultipartFile file, Long taskId) throws IOException;
 
+    void saveUserAnswerTaskFile(MultipartFile file, Long taskId, Integer userId) throws IOException;
+
     List<String> getTaskFileNames(Long taskId);
 
     File getTaskFile(Long taskId, String fileName);

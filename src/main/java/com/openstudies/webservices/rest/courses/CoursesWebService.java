@@ -139,4 +139,16 @@ public class CoursesWebService {
         return courseService.subscribeUserToCourse(courseCode, currentUser);
     }
 
+    @RequestMapping(value = "/courses/saveAnswerFiles/tasks/{taskId}/file", method = RequestMethod.POST, consumes = {org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity saveTaskAnswerFiles(@PathVariable("taskId") Long taskId, @RequestParam(value = "file") MultipartFile file, @RequestHeader("Authorization") String authHeader) {
+        User currentUser = userService.getCurrentUser(authHeader);
+        try {
+            fileService.saveUserAnswerTaskFile(file, taskId, currentUser.getId());
+        } catch (IOException e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
 }

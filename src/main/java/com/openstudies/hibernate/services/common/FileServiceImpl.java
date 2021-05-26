@@ -21,11 +21,27 @@ public class FileServiceImpl implements FileService {
     @Value("${tasks.files.location}")
     String tasksPath;
 
+    @Value("${tasks.user.files.prefix}")
+    String userTasksPrefix;
+
+
 
     @Override
     public void saveTaskFile(MultipartFile file, Long taskId) throws IOException {
         String fileLocation = tasksPath + taskId + "\\" + file.getOriginalFilename();
         Path path = Paths.get(tasksPath + taskId);
+        Files.createDirectories(path);
+        File taskFile = new File(fileLocation);
+        if (taskFile.createNewFile()) {
+            file.transferTo(taskFile);
+        }
+    }
+
+    @Override
+    public void saveUserAnswerTaskFile(MultipartFile file, Long taskId, Integer userId) throws IOException {
+        String fileLocation = tasksPath + userTasksPrefix + taskId + "\\" + userId
+                + "\\" + file.getOriginalFilename();
+        Path path = Paths.get(tasksPath + userTasksPrefix + taskId + "\\" + userId);
         Files.createDirectories(path);
         File taskFile = new File(fileLocation);
         if (taskFile.createNewFile()) {
