@@ -8,6 +8,7 @@ import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
 import com.openstudies.model.entities.courses.User2Courses;
+import com.openstudies.model.entities.forms.RestUsersAndTasks;
 import com.openstudies.repositories.CourseRepository;
 import com.openstudies.repositories.User2CoursesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class CoursesWebService {
@@ -173,6 +175,23 @@ public class CoursesWebService {
                 .contentLength(file.length())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
+    }
+
+    @RequestMapping(value = "/courses/{courseId}/task/{taskId}/works", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getUsersWorksForTasks(@PathVariable("courseId") Long courseId, @PathVariable("taskId") Long taskId) {
+        Course course = courseRepository.findById(courseId).get();
+        Set<User> subscribedUsers = course.getUsersSubscribed();
+
+        List<RestUsersAndTasks> userTasksList = new LinkedList<>();
+        subscribedUsers.forEach((subscribedUser)->{
+            RestUsersAndTasks addedUsersAndTasks = new RestUsersAndTasks();
+            addedUsersAndTasks.setUser(subscribedUser);
+            List<String> userFileNames = fileService.getTaskFileNamesForSubscribedUser(taskId, subscribedUser.getId());
+            addedUsersAndTasks.setFileNames(userFileNames);
+            userTasksList.add(addedUsersAndTasks);
+        });
+
+        return new ResponseEntity(userTasksList, HttpStatus.OK);
     }
 
 }
