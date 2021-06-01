@@ -200,11 +200,17 @@ public class CoursesWebService {
         Set<User> subscribedUsers = course.getUsersSubscribed();
 
         List<RestUsersAndTasks> userTasksList = new LinkedList<>();
-        subscribedUsers.forEach((subscribedUser)->{
+        subscribedUsers.forEach((subscribedUser) -> {
             RestUsersAndTasks addedUsersAndTasks = new RestUsersAndTasks();
             addedUsersAndTasks.setUser(subscribedUser);
             List<String> userFileNames = fileService.getTaskFileNamesForSubscribedUser(taskId, subscribedUser.getId());
             addedUsersAndTasks.setFileNames(userFileNames);
+            Optional<User2Task> user2Task = user2TaskRepository.findByUserIdAndTaskId(subscribedUser.getId(), taskId);
+            if (user2Task.isPresent()) {
+                addedUsersAndTasks.setGrade(user2Task.get().getGrade());
+            } else {
+                addedUsersAndTasks.setGrade(0);
+            }
             userTasksList.add(addedUsersAndTasks);
         });
 

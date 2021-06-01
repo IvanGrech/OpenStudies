@@ -8,6 +8,7 @@ public class RestUsersAndTasks {
 
     private User user;
     private List<String> fileNames;
+    private Integer grade;
 
 
     public User getUser() {
@@ -24,5 +25,13 @@ public class RestUsersAndTasks {
 
     public void setFileNames(List<String> fileNames) {
         this.fileNames = fileNames;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 }
