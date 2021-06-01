@@ -8,9 +8,12 @@ import com.openstudies.model.entities.User;
 import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
 import com.openstudies.model.entities.courses.User2Courses;
+import com.openstudies.model.entities.courses.User2Task;
+import com.openstudies.model.entities.forms.Grade;
 import com.openstudies.model.entities.forms.RestUsersAndTasks;
 import com.openstudies.repositories.CourseRepository;
 import com.openstudies.repositories.User2CoursesRepository;
+import com.openstudies.repositories.User2TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -29,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -47,6 +51,9 @@ public class CoursesWebService {
 
     @Autowired
     User2CoursesRepository user2CoursesRepository;
+
+    @Autowired
+    User2TaskRepository user2TaskRepository;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -202,6 +209,24 @@ public class CoursesWebService {
         });
 
         return new ResponseEntity(userTasksList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/courses/task/{taskId}/user/{userId}/grade", method = RequestMethod.PUT)
+    public ResponseEntity submitGradeForUserTask(@PathVariable("userId") Integer userId, @PathVariable("taskId") Long taskId, @RequestBody Grade grade) {
+        Optional<User2Task> user2Task = user2TaskRepository.findByUserIdAndTaskId(userId, taskId);
+        if (user2Task.isPresent()) {
+            User2Task task = user2Task.get();
+            task.setGrade(grade.getGrade());
+            user2TaskRepository.save(task);
+        } else {
+            User2Task task = new User2Task();
+            task.setGrade(grade.getGrade());
+            task.setTaskId(taskId);
+            task.setUserId(userId);
+            user2TaskRepository.save(task);
+        }
+
+        return new ResponseEntity(null, HttpStatus.OK);
     }
 
 }
