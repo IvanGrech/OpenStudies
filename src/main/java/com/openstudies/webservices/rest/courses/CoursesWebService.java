@@ -177,6 +177,16 @@ public class CoursesWebService {
                 .body(resource);
     }
 
+    @RequestMapping(value = "/courses/task/{id}/file/{fileName}/subscribed/user/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getTaskAnswerFileForUser(@PathVariable("id") Long taskId, @PathVariable("fileName") String fileName, @PathVariable("userId") Integer userId, @RequestHeader("Authorization") String authHeader) throws FileNotFoundException {
+        File file = fileService.getTaskAnswerFile(taskId, userId, fileName);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
+
     @RequestMapping(value = "/courses/{courseId}/task/{taskId}/works", method = RequestMethod.GET)
     public ResponseEntity<Resource> getUsersWorksForTasks(@PathVariable("courseId") Long courseId, @PathVariable("taskId") Long taskId) {
         Course course = courseRepository.findById(courseId).get();
