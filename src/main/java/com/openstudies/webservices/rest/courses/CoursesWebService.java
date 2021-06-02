@@ -9,6 +9,7 @@ import com.openstudies.model.entities.courses.Course;
 import com.openstudies.model.entities.courses.Task;
 import com.openstudies.model.entities.courses.User2Courses;
 import com.openstudies.model.entities.courses.User2Task;
+import com.openstudies.model.entities.forms.CourseGrades;
 import com.openstudies.model.entities.forms.Grade;
 import com.openstudies.model.entities.forms.RestUsersAndTasks;
 import com.openstudies.repositories.CourseRepository;
@@ -235,4 +236,23 @@ public class CoursesWebService {
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/courses/{courseId}/user/{userId}/grades", method = RequestMethod.GET)
+    public ResponseEntity getCourseGradesForUser(@PathVariable("courseId") Long courseId, @PathVariable("userId") Integer userId) {
+        CourseGrades courseGrades = courseService.getCourseGradesForUser(courseId, userId);
+        return ResponseEntity.ok(courseGrades);
+    }
+
+    @RequestMapping(value = "/courses/{courseId}/grades", method = RequestMethod.GET)
+    public ResponseEntity getCourseGradesForCurrentUser(@PathVariable("courseId") Long courseId, @RequestHeader("Authorization") String authHeader) {
+        User currentUser = userService.getCurrentUser(authHeader);
+        CourseGrades courseGrades = courseService.getCourseGradesForUser(courseId, currentUser.getId());
+        return ResponseEntity.ok(courseGrades);
+    }
+
+    @RequestMapping(value = "/courses/user/grades", method = RequestMethod.GET)
+    public ResponseEntity getAllCourseGradesForUser(@RequestHeader("Authorization") String authHeader) {
+        User currentUser = userService.getCurrentUser(authHeader);
+        List<CourseGrades> courseGradesList = courseService.getAllCourseGradesForUser(currentUser.getId());
+        return ResponseEntity.ok(courseGradesList);
+    }
 }
