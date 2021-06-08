@@ -70,6 +70,12 @@ public class CoursesWebService {
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/courses/{courseId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getCourseById(@PathVariable Long courseId) {
+        Course course = courseRepository.findById(courseId).get();
+        return ResponseEntity.ok(course);
+    }
+
     @RequestMapping(value = "/courses/owner/{login}", method = RequestMethod.GET)
     public ResponseEntity<?> getOwnerCourses(@PathVariable("login") String login, HttpServletRequest request) {
         String ownerLogin = jwtTokenUtil.getUsernameFromToken(request.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
