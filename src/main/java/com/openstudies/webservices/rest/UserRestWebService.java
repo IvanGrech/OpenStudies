@@ -107,7 +107,12 @@ public class UserRestWebService {
         user.setLastName(form.getLastName());
         user.setRole(role);
         user.setPassword(form.getPassword());
-        user.setBirthday(Date.valueOf(form.getBirthday()));
+        try {
+            user.setBirthday(Date.valueOf(form.getBirthday()));
+        } catch (IllegalArgumentException ex) {
+
+        }
+
         user.setEmail(form.getEmail());
         userService.create(user);
         return new ResponseEntity<>(null, HttpStatus.OK);
