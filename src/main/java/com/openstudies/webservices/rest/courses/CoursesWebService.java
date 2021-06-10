@@ -155,6 +155,12 @@ public class CoursesWebService {
                 .body(resource);
     }
 
+    @RequestMapping(value = "/courses/task/{taskId}/file/{fileName}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteTaskFile(@PathVariable("taskId") Long taskId, @PathVariable("fileName") String fileName) {
+        fileService.deleteTaskFile(taskId, fileName);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/courses/task/{taskId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteTask(@PathVariable("taskId") Long taskId) {
         fileService.deleteTaskFiles(taskId);

@@ -22,4 +22,6 @@ public interface FileService {
 
     void deleteTaskFiles(Long taskId);
 
+    void deleteTaskFile(Long taskId, String fileName);
+
 }

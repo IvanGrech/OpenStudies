@@ -91,4 +91,10 @@ public class FileServiceImpl implements FileService {
             }
         }
     }
+
+    @Override
+    public void deleteTaskFile(Long taskId, String fileName) {
+        File  fileToDelete = new File(tasksPath + taskId + "\\" + fileName);
+        fileToDelete.delete();
+    }
 }
