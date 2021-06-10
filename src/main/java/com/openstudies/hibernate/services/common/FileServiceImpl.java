@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -28,7 +27,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void saveTaskFile(MultipartFile file, Long taskId) throws IOException {
-        String fileLocation = tasksPath + taskId + "\\" + file.getOriginalFilename();
+        String utf8FileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+        String fileLocation = tasksPath + taskId + "\\" + utf8FileName;
         Path path = Paths.get(tasksPath + taskId);
         Files.createDirectories(path);
         File taskFile = new File(fileLocation);
@@ -39,8 +39,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void saveUserAnswerTaskFile(MultipartFile file, Long taskId, Integer userId) throws IOException {
+        String utf8FileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
         String fileLocation = tasksPath + userTasksPrefix + taskId + "\\" + userId
-                + "\\" + file.getOriginalFilename();
+                + "\\" + utf8FileName;
         Path path = Paths.get(tasksPath + userTasksPrefix + taskId + "\\" + userId);
         Files.createDirectories(path);
         File taskFile = new File(fileLocation);
