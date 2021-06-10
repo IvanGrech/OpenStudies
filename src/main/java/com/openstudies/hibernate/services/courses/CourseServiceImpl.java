@@ -45,6 +45,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public void delete(Long id) {
+        List<Task> taskList = taskRepository.findByCourseId(id);
+        taskList.forEach((task)->{
+            taskRepository.delete(task);
+        });
         courseRepository.deleteById(id);
     }
 
