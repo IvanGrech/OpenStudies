@@ -25,4 +25,6 @@ public interface CourseService {
     CourseGrades getCourseGradesForUser(Long courseId, Integer userId);
 
     List<CourseGrades> getAllCourseGradesForUser(Integer userId);
+
+    void unsubscribeUserFromCourse(Long courseId, User user);
 }

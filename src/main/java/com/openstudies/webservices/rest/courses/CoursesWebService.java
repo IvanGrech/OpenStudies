@@ -267,4 +267,11 @@ public class CoursesWebService {
         List<CourseGrades> courseGradesList = courseService.getAllCourseGradesForUser(currentUser.getId());
         return ResponseEntity.ok(courseGradesList);
     }
+
+    @RequestMapping(value = "/courses/{courseId}/unsubscribe", method = RequestMethod.DELETE)
+    public ResponseEntity unsubscribeCourse(@RequestHeader("Authorization") String authHeader, @PathVariable("courseId") Long courseId) {
+        User currentUser = userService.getCurrentUser(authHeader);
+        courseService.unsubscribeUserFromCourse(courseId, currentUser);
+        return ResponseEntity.ok(null);
+    }
 }

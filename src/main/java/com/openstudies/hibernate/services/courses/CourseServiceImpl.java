@@ -14,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -83,6 +81,21 @@ public class CourseServiceImpl implements CourseService {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @Override
+    public void unsubscribeUserFromCourse(Long courseId, User user) {
+        Course course = courseRepository.findById(courseId).get();
+        if (course != null) {
+            Set<User> subscribedUserSet = course.getUsersSubscribed();
+            Iterator iterator = subscribedUserSet.iterator();
+            while(iterator.hasNext()) {
+                if(((User)iterator.next()).getId().equals(user.getId())) {
+                    iterator.remove();
+                }
+            }
+            courseRepository.save(course);
+        }
     }
 
     @Override
